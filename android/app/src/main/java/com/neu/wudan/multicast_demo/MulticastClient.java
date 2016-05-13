@@ -1,5 +1,7 @@
 package com.neu.wudan.multicast_demo;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
@@ -14,8 +16,8 @@ import java.net.SocketException;
 public class MulticastClient {
     private static String TAG = MulticastClient.class.getSimpleName();
 
-    public MulticastClient(String server, int port) {
-        new Thread(new MulticastClientReceiver(server, port)).start();
+    public MulticastClient(String server, int port, Context context) {
+        new Thread(new MulticastClientReceiver(server, port, context)).start();
     }
 
     private String getHexString(byte[] b, int lenth) {
@@ -37,13 +39,19 @@ public class MulticastClient {
         private MulticastSocket mSocket;
         private InetAddress mGroup;
 
-        public MulticastClientReceiver(String server, int port) {
+        public MulticastClientReceiver(String server, int port, Context context) {
             try {
                 mSocket = new MulticastSocket(port);
                 mGroup = InetAddress.getByName(server);
             } catch (IOException ioe) {
                 Log.e(TAG, "MulticastClientReceiver: creating multicast socket: ", ioe);
                 ioe.printStackTrace();
+            }
+
+            if (mSocket == null) {
+                new AlertDialog.Builder(context)
+                        .setTitle("错误提示")
+                        .setMessage("mSocket is null");
             }
         }
 

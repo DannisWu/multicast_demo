@@ -1,5 +1,6 @@
 package com.neu.wudan.multicast_demo;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.inputmethodservice.ExtractEditText;
 import android.net.wifi.WifiManager;
@@ -42,6 +43,6 @@ public class MainActivity extends AppCompatActivity
         ExtractEditText mMultiPortText = (ExtractEditText)findViewById(R.id.editText_port);
         mMulticastPort = Integer.parseInt(mMultiPortText.getText().toString());
 
-        mMulticastClient = new MulticastClient(mMulticastServer, mMulticastPort);
+        mMulticastClient = new MulticastClient(mMulticastServer, mMulticastPort, MainActivity.this);
     }
 }
